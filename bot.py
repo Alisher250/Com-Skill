@@ -1,7 +1,6 @@
 from aiogram import types
 from dispatcher import dp
 from main import BotDB
-import psycopg2
 
 # отклик на команду /start
 @dp.message_handler(commands="start")
