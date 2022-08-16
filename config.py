@@ -1,1 +1,2 @@
 TOKEN = '5550342329:AAHwxJ-ChKDTMwE2thLhGngAMeY32Nphn1A'
+DB_URI = "postgres://vbnummvfwljhjz:5453fd29bec230cc6664ec3e5095275304f79d0a75367a204894e2c3440c4048@ec2-44-206-197-71.compute-1.amazonaws.com:5432/dbhqa5f0171dhn"

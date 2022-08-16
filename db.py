@@ -1,13 +1,13 @@
-import sqlite3
+import psycopg2
 import datetime
 
 now = datetime.datetime.now()
 
 class BotDB:
 
-    def __init__(self,db_file):
+    def __init__(self, DB_URI):
         """Инициализация"""
-        self.conn = sqlite3.connect(db_file)
+        self.conn = psycopg2.connect(DB_URI, sslmode="require")
         self.cursor = self.conn.cursor()
 
     def user_exists(self, user_id):
@@ -42,24 +42,15 @@ class BotDB:
         return result
 
     def get_know_skill_user(self, user_id):
-        """Ищем навыки пользователя"""
+        """Ищем know навыки пользователя"""
         result = list(self.cursor.execute("SELECT know_skill FROM users WHERE user_id = ?", (user_id,)))
         return result
 
     def get_wknow_skill_user(self, user_id):
-        """Ищем навыки пользователя"""
+        """Ищем wknow навыки пользователя"""
         result = list(self.cursor.execute("SELECT wknow_skill FROM users WHERE user_id = ?", (user_id,)))
         return result
 
-    def update_null_know_skill_user(self, user_id):
-        """Ищем навыки пользователя"""
-        result = list(self.cursor.execute("UPDATE users SET know_skill = NULL WHERE user_id = ?", (user_id,)))
-        return result
-
-    def update_null_wknow_skill_user(self, user_id):
-        """Ищем навыки пользователя"""
-        result = list(self.cursor.execute("UPDATE users SET wknow_skill = NULL WHERE user_id = ?", (user_id,)))
-        return result
 
     def get_need_user(self, wknow_skill, know_skill):
         """Ищем пользователя, который знает навык нужный пользователю и который хочет научится навыку который знает пользователь"""
@@ -90,22 +81,32 @@ class BotDB:
         titles = list(self.cursor.execute("SELECT title FROM profi_skills"))
         return titles
 
-    def update_null_know_skill_user(self, user_id):
-        """Null = know skill"""
-        self.cursor.execute("UPDATE users SET know_skill = NULL WHERE user_id = ?", (user_id,))
-        return self.conn.commit()
-
-    def update_null_wknow_skill_user(self, user_id):
-        """Null = wknow_skill"""
-        self.cursor.execute("UPDATE users SET wknow_skill = NULL WHERE user_id = ?", (user_id,))
-        return self.conn.commit()
-
     def get_user_id(self, user_id):
         """Get user id"""
         self.cursor.execute("SELECT user_id FROM users WHERE user_id = ?", (user_id,))
         return self.conn.commit()
 
-
     def close(self):
         """Закрытие БД"""
         self.conn.close()
+
+"""    def update_null_know_skill_user(self, user_id):
+
+        self.cursor.execute("UPDATE users SET know_skill = NULL WHERE user_id = ?", (user_id,))
+        return self.conn.commit()
+
+    def update_null_wknow_skill_user(self, user_id):
+
+        self.cursor.execute("UPDATE users SET wknow_skill = NULL WHERE user_id = ?", (user_id,))
+        return self.conn.commit()
+        
+    def update_null_know_skill_user(self, user_id):
+        result = list(self.cursor.execute("UPDATE users SET know_skill = NULL WHERE user_id = ?", (user_id,)))
+        return result
+
+    def update_null_wknow_skill_user(self, user_id):
+        result = list(self.cursor.execute("UPDATE users SET wknow_skill = NULL WHERE user_id = ?", (user_id,)))
+        return result        
+        
+        
+"""

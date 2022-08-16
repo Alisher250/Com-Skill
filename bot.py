@@ -1,7 +1,7 @@
 from aiogram import types
 from dispatcher import dp
 from main import BotDB
-
+import psycopg2
 
 # отклик на команду /start
 @dp.message_handler(commands="start")
@@ -183,7 +183,7 @@ async def process_callback_button1(call: types.CallbackQuery):
                 if callback == str(BotDB.get_title_profi_skills()[x]).replace("'", "", 2).replace("(", "").replace(")","").replace(",", ""):
 
                     for x in range(BotDB.get_count_profi_skills()):
-                        x = types.KeyboardButton(str(BotDB.get_title_profi_skills()[x]).replace("'", "", 2).replace("(", "").replace(")","").replace(",", ""))
+                        x = types.KeyboardButton(str(BotDB.get_title_profi_skills()[x]).replace("'", "", 2).replace("(", "").replace(")", "").replace(",", ""))
                         markup.insert(x)
 
             await call.message.bot.send_message(call.message.chat.id,
@@ -219,7 +219,7 @@ async def process_callback_button1(call: types.CallbackQuery):
                     if callback == str(BotDB.get_title_profi_skills()[x]).replace("'", "", 2).replace("(", "").replace(")","").replace(",", ""):
 
                         for x in range(BotDB.get_count_profi_skills()):
-                            x = types.KeyboardButton(str(BotDB.get_title_profi_skills()[x]).replace("'", "", 2).replace("(", "").replace(")","").replace(",", ""))
+                            x = types.KeyboardButton(str(BotDB.get_title_profi_skills()[x]).replace("'", "", 2).replace("(", "").replace(")", "").replace(",", ""))
                             markup.insert(x)
 
                 await call.message.bot.send_message(call.message.chat.id,
